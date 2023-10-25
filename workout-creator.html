@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kreator planu treningowego - FitPlan</title>
+    <link rel="stylesheet" href="styles/style.css" />
+    <script type="module" src="creator.js" defer></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"
+      defer
+    ></script>
+  </head>
+
+  <body>
+    <nav>
+      <div id="nav-container">
+        <a href="index.html">
+          <div id="main-site-button">
+            <img src="img/logo-fitplan.png" id="logo" alt="Fitplan logo" />
+            <h1>FitPlan</h1>
+          </div>
+        </a>
+
+        <a href="workout-creator.html">Kreator planu</a>
+        <a href="kcal-calculator.html ">Kalkulator kalorii</a>
+        <a href="mailto:gracjan.zalewski55@gmail.com">Kontakt</a>
+      </div>
+    </nav>
+    <section>
+      <div id="section-container" class="generate-container">
+        <div id="workout-container">
+          <h1 id="workout-title">STWÓRZ SWÓJ <span id="color-title">PLAN</span></h1>
+
+         
+            <ul id="questions">
+              <li class="showed-question">
+                <p class="question">Ile razy w tygodniu chcesz trenować</p>
+                <div class="center">
+                  <button class="intensity answear" value="3">3</button
+                  >
+                </div><div class="center">
+                  <button class="intensity answear" value="4">4</button
+                  >
+                </div><div class="center">
+                  <button class="intensity answear" value="5">5</button
+                  >
+                </div><div class="center"><button class="intensity answear" value="6">6</button></div>
+              </li>
+              <li>
+                <p class="question">Jaki jest twój stopień zaawansowania</p>
+                <div class="center">
+                  <button id="beginner" class="answear">
+                    Dopiero zaczynam z treningiem</button
+                  >
+                </div><div class="center">
+                  <button id="intermediate" class="answear">
+                    Średniozaawansowany (Rok+ ćwiczeń)</button
+                  >
+                </div><div class="center">
+                  <button id="advanced" class="answear">
+                    Zaawansowany (4+ lat ćwiczeń)
+                  </button>
+                </div>
+              </li>
+              <li>
+                <div id="last-question">
+                  <p class="question">Gdzie chcesz trenować</p>
+                  <div class="center"><button id="gym" class="answear">Na siłowni</button></div>
+                  <div class="center"><button id="home" class="answear">W domu</button></div>
+                </div>
+              </li>
+            </ul>
+
+            <div class="center"><button class="answear generating-button" id="next-question-button">Dalej</button></div>
+            <div class="center"><button id="generate" class="answear generating-button">OK</button></div>
+        
+          <div id="plan-container">
+            <div class="your-plan"></div>
+          </div>
+          <div id="download-container">
+            <div class="center"><button id="download" class="red-button center">Wygeneruj plan</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div id="footer-container">
+        <ul>
+          <li class="footer-title">KONTAKT</li>
+          <li>
+            <a href="mailto:gracjan.zalewski55@gmail.com"
+              >gracjan.zalewski55@gmail.com</a
+            >
+          </li>
+        </ul>
+        <ul>
+          <li class="footer-title">PRAWA AUTORSKIE</li>
+          <li><a href="">Prawa autorskie do zdjęć</a></li>
+        </ul>
+      </div>
+      <div id="copyright">Copyright © Gracjan Zalewski</div>
+    </footer>
+  </body>
+</html>

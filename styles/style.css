@@ -1,0 +1,218 @@
+#download{
+    display: none;
+}
+:root{
+    font-family: 'Poppins', sans-serif;
+    font-weight: normal;
+    font-size: 10px;
+    
+}
+body{
+    margin: 0;
+    
+}
+#nav-container{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    background: #8F2222;
+    padding-right: 2%;
+    padding-left: 1%;
+}
+#nav-container a{
+    text-decoration: none;
+    color: white;
+    font-weight: 700;
+    font-size: 2rem;
+}
+#logo{
+    width: 7rem;
+    height: auto;
+    
+}
+#main-site-button{
+    display: flex;
+    align-items: center;
+}
+h2{
+    margin: 0;
+    font-size: 7rem;
+    
+}
+#section-container{
+    background: rgba(0, 0, 0, 0.94);
+    color: white;
+    display: flex;
+    justify-content: center;
+    font-size: 2.4rem;
+    align-items: center;
+    padding: 2% 3%;
+    min-height: 80rem;
+}
+#kcal-container{
+    min-height: 75rem;
+}
+#section-container #left-side{
+    width: 45%;
+    margin-right: 5%;
+}
+#right-side-photo{
+    width: 60.2rem;
+    border-radius: 36rem;
+    height: 62.5rem;
+    
+}
+.red-button{
+    background: #8F2222;
+    text-decoration: none;
+    color: white;
+    padding: 1% 3%;
+    font-weight: bold;
+}
+
+
+
+
+#footer-container{
+    display: flex;
+    background: #8F2222;
+    font-size: 1.4rem;
+    justify-content: space-around;
+    text-align: center;
+    padding: 1% 0;
+}
+.footer-title{
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+#footer-container ul li, #footer-container ul li a{
+    list-style: none;
+    color: white;
+ 
+}
+#copyright{
+    color: white;
+    font-size: 1.5rem;
+    background: #691B1B;
+    font-family: Times New Roman;
+    display: flex;
+    justify-content: center;
+}
+
+
+/*KCAL CALCULATOR*/
+
+#kcal-container{
+    background: rgba(0, 0, 0, 0.94);
+    color: white;
+    
+    
+    font-size: 2rem;
+    align-items: center;
+    padding: 2% 3%;
+}
+#kcal-container h1{
+    margin: 0;
+    font-size: 5rem ;
+    text-align: center;
+}
+.small-text{
+    font-weight: 300;
+    font-size: 0.9rem;
+    color: white;
+}
+#kcal-input{
+    display: flex;
+    justify-content: center !important;
+}
+#ppm-form{
+    line-height: 300%;
+}
+.answear{
+    width: 50.6rem;
+    height: 10.1rem;
+    background: #8F2222;
+    color: white;
+    font-size: 3.2rem;
+    border: none;
+    margin: 2% 0%;
+    
+    text-align: center;
+}
+/*Do responsywnosci margin 2% 0*/
+    
+#questions{
+    list-style: none;
+    padding: 0;
+}
+.question{
+    font-size: 3.2rem;
+    font-weight: bold;
+    
+}
+#workout-title{
+    text-align: center;
+    font-size: 7rem;
+    margin: 1% 0;
+}
+#workout-title span{
+    color: #8F2222;
+}
+#questions li:not(.showed-question){
+    display: none;
+}
+#questions{
+    display: flex;
+    justify-content: center;
+}
+
+.question{
+    text-align: center;
+}
+.center{
+    display: flex;
+    justify-content: center;
+}
+#generate{
+    display: none;
+}
+.answear:not(.generatin-button)::marker{
+    background-color: #691B1B;
+}
+#download{
+    height: 7rem;
+    border: none;
+    font-size: 3rem;
+}
+#second-section-container{
+    background:rgba(0, 0, 0, 0.94);
+    padding-bottom: 5%;
+}
+#second-section-container h2{
+    text-align: center;
+}
+.steps{
+    border: #691B1B 5px solid;
+    width: 65rem;
+    height: 65rem;
+    
+}
+.exercise-name{
+    font-size: 5rem;
+    color: #8F2222;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 1% 0;
+}
+.another-exercise-button{
+    border: none;
+}
+.another-exercise-button:active{
+    border: white 2px solid;
+}
+.grid{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    
+}
