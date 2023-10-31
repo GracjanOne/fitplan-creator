@@ -12,6 +12,9 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap"
       rel="stylesheet"
     />
+    <SCript>
+      const burgerMenu = document.querySelector("hamburger-menu");
+    </SCript>
   </head>
   <!--TO DO
   -Style dla kalkulatora kalorii
@@ -27,14 +30,16 @@
         <a href="index.html">
           <div id="main-site-button">
             <img src="img/logo-fitplan.png" id="logo" alt="Fitplan logo" />
-            <h1>FitPlan</h1>
+            <h1 class="logo-name">FitPlan</h1>
           </div>
         </a>
-
-        <a href="workout-creator.html">Kreator planu</a>
-        <a href="kcal-calculator.html ">Kalkulator kalorii</a>
-        <a href="mailto:gracjan.zalewski55@gmail.com">Kontakt</a>
+        <input type="checkbox" role="button" id="hamburger-menu" aria-label="Display the menu" class="menu">
+        <a class="nav-links" href="workout-creator.html">Kreator planu</a>
+        <a class="nav-links" href="kcal-calculator.html ">Kalkulator kalorii</a>
+        <a class="nav-links" href="mailto:gracjan.zalewski55@gmail.com">Kontakt</a>
+       
       </div>
+      
     </nav>
     <section>
       <div id="section-container">
@@ -48,7 +53,7 @@
             Dzięki niemu dostosujesz trening do swoich potrzeb i wyznaczysz kurs
             na drodze do sukcesu!
           </p>
-          <a class="red-button" href="workout-creator.html">UŻYJ KREATORA</a>
+          <a class="red-button center" href="workout-creator.html">UŻYJ KREATORA</a>
         </div>
         <div><img id="right-side-photo" src="img/main-photo.jpg" alt="" /></div>
       </div>
