@@ -11,22 +11,38 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"
       defer
     ></script>
+    <script src="menu.js" defer></script>
+    <style>
+      #section-container{
+        min-height: 90rem;
+      }
+      @media screen and (max-width:1220px){
+        #section-container{
+        min-height: 110rem;
+      }
+      }
+    </style>
   </head>
 
   <body>
     <nav>
       <div id="nav-container">
-        <a href="index.html">
-          <div id="main-site-button">
-            <img src="img/logo-fitplan.png" id="logo" alt="Fitplan logo" />
-            <h1>FitPlan</h1>
-          </div>
-        </a>
-
-        <a href="workout-creator.html">Kreator planu</a>
-        <a href="kcal-calculator.html ">Kalkulator kalorii</a>
-        <a href="mailto:gracjan.zalewski55@gmail.com">Kontakt</a>
+        <div id="burger-menu-container">
+          <a href="index.html">
+            <div id="main-site-button">
+              <img src="img/logo-fitplan.png" id="logo" alt="Fitplan logo" />
+              <h1 class="logo-name">FitPlan</h1>
+            </div>
+          
+          </a>
+          <input type="checkbox" role="button" id="hamburger-menu" aria-label="Display the menu" class="menu">
+        </div>
+        <a class="nav-links" href="workout-creator.html">Kreator planu</a>
+        <a class="nav-links" href="kcal-calculator.html ">Kalkulator kalorii</a>
+        <a class="nav-links" href="mailto:gracjan.zalewski55@gmail.com">Kontakt</a>
+        
       </div>
+      
     </nav>
     <section>
       <div id="section-container" class="generate-container">

@@ -12,34 +12,33 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap"
       rel="stylesheet"
     />
-    <SCript>
-      const burgerMenu = document.querySelector("hamburger-menu");
-    </SCript>
+    <script src="menu.js" defer></script>
   </head>
-  <!--TO DO
-  -Style dla kalkulatora kalorii
-  -Dodać opis do zdjęć jak uzywac kreatora
-  -Responsywność
-  -W media query zdjac justyfi content center
-  -Dodać tło pod stopką aby po oddaleniu nie było białego
-  -Funkcja do excela
-  -->
+
   <body>
     <nav>
       <div id="nav-container">
-        <a href="index.html">
-          <div id="main-site-button">
-            <img src="img/logo-fitplan.png" id="logo" alt="Fitplan logo" />
-            <h1 class="logo-name">FitPlan</h1>
-          </div>
-        </a>
-        <input type="checkbox" role="button" id="hamburger-menu" aria-label="Display the menu" class="menu">
+        <div id="burger-menu-container">
+          <a href="index.html">
+            <div id="main-site-button">
+              <img src="img/logo-fitplan.png" id="logo" alt="Fitplan logo" />
+              <h1 class="logo-name">FitPlan</h1>
+            </div>
+          </a>
+          <input
+            type="checkbox"
+            role="button"
+            id="hamburger-menu"
+            aria-label="Display the menu"
+            class="menu"
+          />
+        </div>
         <a class="nav-links" href="workout-creator.html">Kreator planu</a>
         <a class="nav-links" href="kcal-calculator.html ">Kalkulator kalorii</a>
-        <a class="nav-links" href="mailto:gracjan.zalewski55@gmail.com">Kontakt</a>
-       
+        <a class="nav-links" href="mailto:gracjan.zalewski55@gmail.com"
+          >Kontakt</a
+        >
       </div>
-      
     </nav>
     <section>
       <div id="section-container">
@@ -53,7 +52,9 @@
             Dzięki niemu dostosujesz trening do swoich potrzeb i wyznaczysz kurs
             na drodze do sukcesu!
           </p>
-          <a class="red-button center" href="workout-creator.html">UŻYJ KREATORA</a>
+          <a class="red-button center" href="workout-creator.html"
+            >UŻYJ KREATORA</a
+          >
         </div>
         <div><img id="right-side-photo" src="img/main-photo.jpg" alt="" /></div>
       </div>
@@ -64,7 +65,7 @@
           JAK UŻYWAĆ <span style="color: #8f2222">KREATORA</span>
         </h2>
         <div class="center">
-          <div >
+          <div>
             <div class="grid">
               <img class="steps" src="img/step1.png" alt="" /><img
                 class="steps"

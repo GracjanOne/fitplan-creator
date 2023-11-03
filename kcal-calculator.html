@@ -1,103 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kalkulator kalorii - FitPlan</title>
-    <link rel="stylesheet" href="styles/style.css" />
-    <script src="calories-calc.js" defer></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
-  </head>
-  <body>
-   
-      <nav>
-        <div id="nav-container">
-          <a href="index.html">
-            <div id="main-site-button">
-              <img src="img/logo-fitplan.png" id="logo" alt="Fitplan logo" />
-              <h1>FitPlan</h1>
-            </div>
-          </a>
-  
-          <a href="workout-creator.html">Kreator planu</a>
-          <a href="kcal-calculator.html ">Kalkulator kalorii</a>
-          <a href="mailto:gracjan.zalewski55@gmail.com">Kontakt</a>
-        </div>
-      </nav>
-      <section>
-        <div id="kcal-container">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kalkulator kalorii - FitPlan</title>
+  <link rel="stylesheet" href="styles/style.css" />
+  <script src="calories-calc.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+  <script src="menu.js" defer></script>
+</head>
+<body>
+  <nav>
+    <div id="nav-container">
+      <div id="burger-menu-container">
+        <a href="index.html">
+          <div id="main-site-button">
+            <img src="img/logo-fitplan.png" id="logo" alt="Fitplan logo" />
+            <h1 class="logo-name">FitPlan</h1>
+          </div>
+        </a>
+        <input type="checkbox" role="button" id="hamburger-menu" aria-label="Display the menu" class="menu">
+      </div>
+      <a class="nav-links" href="workout-creator.html">Kreator planu</a>
+      <a class = "nav-links" href="kcal-calculator.html">Kalkulator kalorii</a>
+      <a class="nav-links" href="mailto:gracjan.zalewski55@gmail.com">Kontakt</a>
+    </div>
+  </nav>
+  <section>
+    <div id="kcal-container">
+      <div>
+        <h1>KALKULATOR KALORII</h1>
+        <div id="kcal-input">
           <div>
-            <h1>KALKULATOR KALORII</h1>
-            <div  id="kcal-input">
-              <div >
-                
-                <form id="ppm-form" action="">
-                  Jestem <input type="radio" name="sex" id="male" /> <label for="male">Mężczyzną</label>
-                <input type="radio" name="sex" id="female" /><label for="female">Kobietą</label>
-                <br />
-                Waga <input type="number" id="weight" /> kg <br />Wzrost <input
-                  type="number"
-                  id="height"
-                />
-                cm <br /><span id="age-container">Wiek <input type="number" id="age" /></span> <br />
-                <span id="pal-container">PAL <input type="number" id="pal" /></span>
-                <br><a
-                  class="small-text" href="https://maslove.pl/wspolczynnik-aktywnosci-fizycznej-pal-jak-obliczyc/#:~:text=Wsp%C3%B3%C5%82czynnik%20PAL%20%E2%80%93%20tabela"
-                  >Jak obliczyć PAL</a
-                >
-                <input id="submit" type="submit" value="OK"  class="red-button kcal-button"/>
-                        </form>
+            <form id="ppm-form" action="">
+              <span class="radio">
+                Jestem <input  type="radio" name="sex" id="male" /> <label for="male">Mężczyzną</label>
+                <input  type="radio" name="sex" id="female" /><label for="female">Kobietą</label>
+              </span>
+              <br />
+              Waga <input  type="number" id="weight" /> kg <br />
+              Wzrost <input  type="number" id="height" /> cm <br />
+              <span id="age-container">Wiek <input  type="number" id="age" /></span> <br />
+              <span id="pal-container">PAL <input  type="number" id="pal" /></span>
+              <br>
+              <input id="submit" type="submit" value="OK" class="red-button kcal-button" />
+            </form>
+          </div>
+        </div>
+        <p id="result"></p>
+        <span class="center">Chcę:</span>
+        <div id="cpm-calories">
+          <div id="left">
+            <div>
+              <div class="radio">
+                <input checked type="radio" name="weightGoal" id="bulk"><label for="bulk">Przytyć</label><br>
+                <input type="radio" name="weightGoal" id="cut"> <label for="cut">Schudnąć</label>
               </div>
             </div>
-                    
-                      <p id="result"></p>
-                      
-                        <span class="center">Chce:</span> 
-                        <div id="cpm-calories">
-                          <div id="left">
-                        <div>
-                            <div>
-                                <input type="radio" name="weightGoal" id="bulk"><label for="bulk">Przytyć</label><br> <input type="radio" name="weightGoal" id="cut"> <label for="cut">Schudnąć</label>
-                            </div>
-                      </div>
-                    </div>  
-                             <span class="center">Lub</span>
-                             <div id="right">
-                                                       <div>
-                                <input type="radio" name="weightGoal" id="percent"><input type="number" name="" id="weightPercent" min="-50" max="50">%</input>
-                                <br>
-                                                       </div>
-                                                      </div>
-                                                       <div class="center"><input type="submit" class="red-button kcal-button" value="OK" id="finalSubmit"></div>
-                           
-                           <p id="finalCalories"></p>
-                      
-                    </div>
           </div>
+          <span class="center">Lub</span>
+          <div id="right">
+            <div>
+              <input type="radio" name="weightGoal" id="percent"><input type="number" name="" id="weightPercent" min="-50" max="50">%</input>
+              <br>
+            </div>
+          </div>
+          <div class="center"><input type="submit" class="red-button kcal-button" value="OK" id="finalSubmit"></div>
+          <p id="finalCalories"></p>
         </div>
-      </section>
-  
-      <footer>
-          <div id="footer-container">
-              <ul>
-                  <li class="footer-title">KONTAKT</li>
-                  <li><a href="mailto:gracjan.zalewski55@gmail.com">gracjan.zalewski55@gmail.com</a></li>
-              </ul>
-              <ul>
-                  <li class="footer-title">PRAWA AUTORSKIE</li>
-                  <li><a href="">Prawa autorskie do zdjęć</a></li>
-              </ul>  
-                  
-              
-          </div>
-          <div id="copyright">
-              Copyright ©  Gracjan Zalewski
-          </div>
-      </footer>
-    
-    
-  </body>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div id="footer-container">
+      <ul>
+        <li class="footer-title">KONTAKT</li>
+        <li><a href="mailto:gracjan.zalewski55@gmail.com">gracjan.zalewski55@gmail.com</a></li>
+      </ul>
+      <ul>
+        <li class="footer-title">PRAWA AUTORSKIE</li>
+        <li><a href="">Prawa autorskie do zdjęć</a></li>
+      </ul>
+    </div>
+    <div id="copyright">
+      Copyright © Gracjan Zalewski
+    </div>
+  </footer>
+</body>
 </html>

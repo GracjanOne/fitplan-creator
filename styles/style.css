@@ -44,10 +44,11 @@ h2 {
   font-size: 2.4rem;
   align-items: center;
   padding: 2% 3%;
-  min-height: 80rem;
+  
 }
 #kcal-container {
-  min-height: 75rem;
+  min-height: 130rem;
+  
 }
 #section-container #left-side {
   width: 45%;
@@ -99,7 +100,7 @@ h2 {
   background: rgba(0, 0, 0, 0.94);
   color: white;
 
-  font-size: 2rem;
+  font-size: 3rem;
   align-items: center;
   padding: 2% 3%;
 }
@@ -208,7 +209,7 @@ h2 {
 #weightPercent {
   background: #d9d9d9;
   border: none;
-  height: 3rem;
+  height: 4rem;
 }
 #kcal-input {
   display: flex;
@@ -299,28 +300,40 @@ h2 {
   outline: 2px solid var(--c);
   outline-offset: 5px;
 }
+.show-menu{
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  
+}
+
 @media screen and (max-width: 1220px){
     :root{
         font-size: 7px;
     }
 }
 /*
-oddalić elementy jak używać kreatora, responsywność, burger menu - index.html
-
-zmniejszyć fonty w mediaquery, zmniejszyć przyciski mediaquery, przyciski inne ćwiczenie na całej szerokości dla telefonu - workout creator
-
-stopka responsywna dla 350px
+Zwiększyć font w kalkulatorze kcal
 
 
 
 
 */
-@media screen and (max-width:800px){
-  
+@media screen and (max-width:860px){
+  #nav-container a{
+    font-size: 3rem;
+  }
+  #burger-menu-container{
+    display: flex;
+    width: 90vw;
+    justify-content:space-between;
+  }
+  #kcal-container{
+    font-size: 4rem;
+  }
   #nav-container{
     
-    display: flex;
-    padding-right: 0;
+    display: grid;
     
   }
   .menu{
@@ -346,11 +359,9 @@ stopka responsywna dla 350px
     }
     #section-container{
         flex-direction: column;
-        
+        min-height: 130rem;
     }
-    :root{
-        font-size: 6px;
-    }
+    
     .menu{
         display: block;
         
@@ -374,3 +385,4 @@ stopka responsywna dla 350px
         
     }
 }
+

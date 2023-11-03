@@ -1,5 +1,4 @@
 window.onload = function () {
-  //variables
   let gymChecked = false;
   let homeChecked = false;
   let isBeginner = false;
@@ -12,9 +11,9 @@ window.onload = function () {
     exersices: {},
   };
 
-  //buttons
- 
-  const answears = document.querySelectorAll(".answear:not(.generating-button)");
+  const answears = document.querySelectorAll(
+    ".answear:not(.generating-button)"
+  );
   const lastQuestion = document.querySelector("#last-question");
   const gym = document.getElementById("gym");
   const home = document.getElementById("home");
@@ -28,17 +27,15 @@ window.onload = function () {
   const downloadContainer = document.getElementById("download-container");
   const nextQuestion = document.getElementById("next-question-button");
   const workoutTitle = document.querySelector("#workout-title");
-  
+
   let selectedAnswear = null;
 
   answears.forEach((answear) => {
     answear.addEventListener("click", () => {
-      
       if (selectedAnswear) {
-        selectedAnswear.style.backgroundColor = ""; 
+        selectedAnswear.style.backgroundColor = "";
       }
-  
-      
+
       selectedAnswear = answear;
       answear.style.backgroundColor = "#691B1B";
     });
@@ -85,21 +82,20 @@ window.onload = function () {
   });
   let showedQuestion = document.querySelector("#questions .showed-question");
 
-let counter = 0;
-nextQuestion.addEventListener("click", () => {
-  showedQuestion.style.display = "none";
-  const nextSibling = showedQuestion.nextElementSibling;
-  counter+=1
-  if (nextSibling && nextSibling.tagName === "LI") {
-    if(counter== 2){
-      nextQuestion.style.display="none";
-      generateButton.style.display = "block"
+  let counter = 0;
+  nextQuestion.addEventListener("click", () => {
+    showedQuestion.style.display = "none";
+    const nextSibling = showedQuestion.nextElementSibling;
+    counter += 1;
+    if (nextSibling && nextSibling.tagName === "LI") {
+      if (counter == 2) {
+        nextQuestion.style.display = "none";
+        generateButton.style.display = "block";
+      }
+      showedQuestion = nextSibling;
+      showedQuestion.classList.add("showed-question");
     }
-    showedQuestion = nextSibling;
-    showedQuestion.classList.add("showed-question");
-    
-  } 
-});
+  });
 
   generateButton.addEventListener("click", () => {
     if (gymChecked == true) {
@@ -166,7 +162,7 @@ nextQuestion.addEventListener("click", () => {
           },
         };
       }
-      // 4 dni
+
       if (workoutPlan.split == "Push pull push pull") {
         workoutPlan.exersices = {
           day1: {
@@ -319,9 +315,10 @@ nextQuestion.addEventListener("click", () => {
     }
     showExercise();
     downloadButton.style.display = "block";
-    lastQuestion.style.display="none"
+    lastQuestion.style.display = "none";
     generateButton.style.display = "none";
-    workoutTitle.innerHTML = "SPRAWDŹ SWÓJ <span style='color:#8F2222;'>PLAN</span>"
+    workoutTitle.innerHTML =
+      "SPRAWDŹ SWÓJ <span style='color:#8F2222;'>PLAN</span>";
   });
 
   function showExercise() {
@@ -376,7 +373,6 @@ nextQuestion.addEventListener("click", () => {
             ) {
               const exercise = exercisesForDay[exerciseName];
               if (exercise.name === exerciseNameToFind) {
-                // Znaleziono ćwiczenie
                 const objects = [chest, legs, back, shoulders, triceps, biceps];
                 const keyToFind =
                   workoutPlan.exersices[day][exerciseName].targetArea;
@@ -414,40 +410,34 @@ nextQuestion.addEventListener("click", () => {
     planContainer.innerHTML = "";
     showExercise();
   });
-  function createWorkoutSheet(day, sheetName, ws) {
-    ws = XLSX.utils.aoa_to_sheet([
-        [day.name],
-        ["Ćw.", "Powt.", "Serie", "Tempo", "Rir"],
-    ]);
 
-    for (const exercise of day) {
-        ws.data.push([
-            exercise.name,
-            exercise.reps,
-            exercise.set,
-            exercise.tempo,
-            exercise.rir,
+  let ws;
+
+  function addSheet(...day) {
+    let workoutPlanSheet = [["Ćw.", "Powt.", "Serie", "Tempo", "Rir"]];
+    let index = 0;
+    for (let i in day) {
+      let exerInDay = day[i];
+      workoutPlanSheet.push([exerInDay.name]);
+      for (let exercise1 in exerInDay) {
+        let value = exerInDay[exercise1];
+
+        if (value == undefined) {
+          continue;
+        }
+        workoutPlanSheet.push([
+          value.name,
+          value.reps,
+          value.set,
+          value.tempo,
+          value.rir,
         ]);
-    }
-
-    ws.data.push([]);
-}
-  function addSheet(){
-    for(day in workoutPlan.exersices){
-      ([
-        [workoutPlan.exersices.day.name],
-        ["Ćw.", "Powt.", "Serie", "Tempo", "Rir"],
-        
-      ])
-      for(exercise in workoutPlan.exersices.day){
-        ws += XLSX.utils.aoatosheet([
-          [exercise.name, exercise.reps, exercise.set, exercise.tempo, exercise.rir],
-        ])
+        index += 1;
       }
     }
-    
-
+    ws = XLSX.utils.aoa_to_sheet(workoutPlanSheet);
   }
+
   downloadButton.addEventListener("click", async () => {
     const XLSX = await import(
       "https://cdn.sheetjs.com/xlsx-0.20.0/package/xlsx.mjs"
@@ -458,797 +448,41 @@ nextQuestion.addEventListener("click", () => {
     XLSX.set_cptable(cptable);
 
     const wb = XLSX.utils.book_new();
-    let ws;
-    //Zrob funkcje do generowania
-    if (split == "FBW*3") {
-      ws = XLSX.utils.aoa_to_sheet([
-        [workoutPlan.exersices.day1.name],
-        ["Ćw.", "Powt.", "Serie", "Tempo", "Rir"],
-        [
-          workoutPlan.exersices.day1.firstExersice.name,
-          workoutPlan.exersices.day1.firstExersice.reps,
-          workoutPlan.exersices.day1.firstExersice.set,
-          workoutPlan.exersices.day1.firstExersice.tempo,
-          workoutPlan.exersices.day1.firstExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day1.secondExersice.name,
-          workoutPlan.exersices.day1.secondExersice.reps,
-          workoutPlan.exersices.day1.secondExersice.set,
-          workoutPlan.exersices.day1.secondExersice.tempo,
-          workoutPlan.exersices.day1.secondExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day1.thirdExersice.name,
-          workoutPlan.exersices.day1.thirdExersice.reps,
-          workoutPlan.exersices.day1.thirdExersice.set,
-          workoutPlan.exersices.day1.thirdExersice.tempo,
-          workoutPlan.exersices.day1.thirdExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day1.fourthExersice.name,
-          workoutPlan.exersices.day1.fourthExersice.reps,
-          workoutPlan.exersices.day1.fourthExersice.set,
-          workoutPlan.exersices.day1.fourthExersice.tempo,
-          workoutPlan.exersices.day1.fourthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day1.fifthExersice.name,
-          workoutPlan.exersices.day1.fifthExersice.reps,
-          workoutPlan.exersices.day1.fifthExersice.set,
-          workoutPlan.exersices.day1.fifthExersice.tempo,
-          workoutPlan.exersices.day1.fifthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day1.sixthExersice.name,
-          workoutPlan.exersices.day1.sixthExersice.reps,
-          workoutPlan.exersices.day1.sixthExersice.set,
-          workoutPlan.exersices.day1.sixthExersice.tempo,
-          workoutPlan.exersices.day1.sixthExersice.rir,
-        ],
-        [],
-        [workoutPlan.exersices.day2.name],
-        ["Ćw.", "Powt.", "Serie", "Tempo", "Rir"],
-        [
-          workoutPlan.exersices.day2.firstExersice.name,
-          workoutPlan.exersices.day2.firstExersice.reps,
-          workoutPlan.exersices.day2.firstExersice.set,
-          workoutPlan.exersices.day2.firstExersice.tempo,
-          workoutPlan.exersices.day2.firstExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day2.secondExersice.name,
-          workoutPlan.exersices.day2.secondExersice.reps,
-          workoutPlan.exersices.day2.secondExersice.set,
-          workoutPlan.exersices.day2.secondExersice.tempo,
-          workoutPlan.exersices.day2.secondExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day2.thirdExersice.name,
-          workoutPlan.exersices.day2.thirdExersice.reps,
-          workoutPlan.exersices.day2.thirdExersice.set,
-          workoutPlan.exersices.day2.thirdExersice.tempo,
-          workoutPlan.exersices.day2.thirdExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day2.fourthExersice.name,
-          workoutPlan.exersices.day2.fourthExersice.reps,
-          workoutPlan.exersices.day2.fourthExersice.set,
-          workoutPlan.exersices.day2.fourthExersice.tempo,
-          workoutPlan.exersices.day2.fourthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day2.fifthExersice.name,
-          workoutPlan.exersices.day2.fifthExersice.reps,
-          workoutPlan.exersices.day2.fifthExersice.set,
-          workoutPlan.exersices.day2.fifthExersice.tempo,
-          workoutPlan.exersices.day2.fifthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day2.sixthExersice.name,
-          workoutPlan.exersices.day2.sixthExersice.reps,
-          workoutPlan.exersices.day2.sixthExersice.set,
-          workoutPlan.exersices.day2.sixthExersice.tempo,
-          workoutPlan.exersices.day2.sixthExersice.rir,
-        ],
-        [],
-        [workoutPlan.exersices.day3.name],
-        ["Ćw.", "Powt.", "Serie", "Tempo", "Rir"],
-        [
-          workoutPlan.exersices.day3.firstExersice.name,
-          workoutPlan.exersices.day3.firstExersice.reps,
-          workoutPlan.exersices.day3.firstExersice.set,
-          workoutPlan.exersices.day3.firstExersice.tempo,
-          workoutPlan.exersices.day3.firstExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day3.secondExersice.name,
-          workoutPlan.exersices.day3.secondExersice.reps,
-          workoutPlan.exersices.day3.secondExersice.set,
-          workoutPlan.exersices.day3.secondExersice.tempo,
-          workoutPlan.exersices.day3.secondExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day3.thirdExersice.name,
-          workoutPlan.exersices.day3.thirdExersice.reps,
-          workoutPlan.exersices.day3.thirdExersice.set,
-          workoutPlan.exersices.day3.thirdExersice.tempo,
-          workoutPlan.exersices.day3.thirdExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day3.fourthExersice.name,
-          workoutPlan.exersices.day3.fourthExersice.reps,
-          workoutPlan.exersices.day3.fourthExersice.set,
-          workoutPlan.exersices.day3.fourthExersice.tempo,
-          workoutPlan.exersices.day3.fourthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day3.fifthExersice.name,
-          workoutPlan.exersices.day3.fifthExersice.reps,
-          workoutPlan.exersices.day3.fifthExersice.set,
-          workoutPlan.exersices.day3.fifthExersice.tempo,
-          workoutPlan.exersices.day3.fifthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day3.sixthExersice.name,
-          workoutPlan.exersices.day3.sixthExersice.reps,
-          workoutPlan.exersices.day3.sixthExersice.set,
-          workoutPlan.exersices.day3.sixthExersice.tempo,
-          workoutPlan.exersices.day3.sixthExersice.rir,
-        ],
-      ]);
-    }
-    if (split == "Push pull push pull") {
-      ws = XLSX.utils.aoa_to_sheet([
-        [workoutPlan.exersices.day1.name],
-        ["Ćw.", "Powt.", "Serie", "Tempo", "Rir"],
-        [
-          workoutPlan.exersices.day1.firstExersice.name,
-          workoutPlan.exersices.day1.firstExersice.reps,
-          workoutPlan.exersices.day1.firstExersice.set,
-          workoutPlan.exersices.day1.firstExersice.tempo,
-          workoutPlan.exersices.day1.firstExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day1.secondExersice.name,
-          workoutPlan.exersices.day1.secondExersice.reps,
-          workoutPlan.exersices.day1.secondExersice.set,
-          workoutPlan.exersices.day1.secondExersice.tempo,
-          workoutPlan.exersices.day1.secondExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day1.thirdExersice.name,
-          workoutPlan.exersices.day1.thirdExersice.reps,
-          workoutPlan.exersices.day1.thirdExersice.set,
-          workoutPlan.exersices.day1.thirdExersice.tempo,
-          workoutPlan.exersices.day1.thirdExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day1.fourthExersice.name,
-          workoutPlan.exersices.day1.fourthExersice.reps,
-          workoutPlan.exersices.day1.fourthExersice.set,
-          workoutPlan.exersices.day1.fourthExersice.tempo,
-          workoutPlan.exersices.day1.fourthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day1.fifthExersice.name,
-          workoutPlan.exersices.day1.fifthExersice.reps,
-          workoutPlan.exersices.day1.fifthExersice.set,
-          workoutPlan.exersices.day1.fifthExersice.tempo,
-          workoutPlan.exersices.day1.fifthExersice.rir,
-        ],
 
-        [],
-        [workoutPlan.exersices.day2.name],
-        ["Ćw.", "Powt.", "Serie", "Tempo", "Rir"],
-        [
-          workoutPlan.exersices.day2.firstExersice.name,
-          workoutPlan.exersices.day2.firstExersice.reps,
-          workoutPlan.exersices.day2.firstExersice.set,
-          workoutPlan.exersices.day2.firstExersice.tempo,
-          workoutPlan.exersices.day2.firstExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day2.secondExersice.name,
-          workoutPlan.exersices.day2.secondExersice.reps,
-          workoutPlan.exersices.day2.secondExersice.set,
-          workoutPlan.exersices.day2.secondExersice.tempo,
-          workoutPlan.exersices.day2.secondExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day2.thirdExersice.name,
-          workoutPlan.exersices.day2.thirdExersice.reps,
-          workoutPlan.exersices.day2.thirdExersice.set,
-          workoutPlan.exersices.day2.thirdExersice.tempo,
-          workoutPlan.exersices.day2.thirdExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day2.fourthExersice.name,
-          workoutPlan.exersices.day2.fourthExersice.reps,
-          workoutPlan.exersices.day2.fourthExersice.set,
-          workoutPlan.exersices.day2.fourthExersice.tempo,
-          workoutPlan.exersices.day2.fourthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day2.fifthExersice.name,
-          workoutPlan.exersices.day2.fifthExersice.reps,
-          workoutPlan.exersices.day2.fifthExersice.set,
-          workoutPlan.exersices.day2.fifthExersice.tempo,
-          workoutPlan.exersices.day2.fifthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day2.sixthExersice.name,
-          workoutPlan.exersices.day2.sixthExersice.reps,
-          workoutPlan.exersices.day2.sixthExersice.set,
-          workoutPlan.exersices.day2.sixthExersice.tempo,
-          workoutPlan.exersices.day2.sixthExersice.rir,
-        ],
-        [],
-        [workoutPlan.exersices.day3.name],
-        ["Ćw.", "Powt.", "Serie", "Tempo", "Rir"],
-        [
-          workoutPlan.exersices.day3.firstExersice.name,
-          workoutPlan.exersices.day3.firstExersice.reps,
-          workoutPlan.exersices.day3.firstExersice.set,
-          workoutPlan.exersices.day3.firstExersice.tempo,
-          workoutPlan.exersices.day3.firstExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day3.secondExersice.name,
-          workoutPlan.exersices.day3.secondExersice.reps,
-          workoutPlan.exersices.day3.secondExersice.set,
-          workoutPlan.exersices.day3.secondExersice.tempo,
-          workoutPlan.exersices.day3.secondExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day3.thirdExersice.name,
-          workoutPlan.exersices.day3.thirdExersice.reps,
-          workoutPlan.exersices.day3.thirdExersice.set,
-          workoutPlan.exersices.day3.thirdExersice.tempo,
-          workoutPlan.exersices.day3.thirdExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day3.fourthExersice.name,
-          workoutPlan.exersices.day3.fourthExersice.reps,
-          workoutPlan.exersices.day3.fourthExersice.set,
-          workoutPlan.exersices.day3.fourthExersice.tempo,
-          workoutPlan.exersices.day3.fourthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day3.fifthExersice.name,
-          workoutPlan.exersices.day3.fifthExersice.reps,
-          workoutPlan.exersices.day3.fifthExersice.set,
-          workoutPlan.exersices.day3.fifthExersice.tempo,
-          workoutPlan.exersices.day3.fifthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day3.sixthExersice.name,
-          workoutPlan.exersices.day3.sixthExersice.reps,
-          workoutPlan.exersices.day3.sixthExersice.set,
-          workoutPlan.exersices.day3.sixthExersice.tempo,
-          workoutPlan.exersices.day3.sixthExersice.rir,
-        ],
-        [],
-        [workoutPlan.exersices.day4.name],
-        ["Ćw.", "Powt.", "Serie", "Tempo", "Rir"],
-        [
-          workoutPlan.exersices.day4.firstExersice.name,
-          workoutPlan.exersices.day4.firstExersice.reps,
-          workoutPlan.exersices.day4.firstExersice.set,
-          workoutPlan.exersices.day4.firstExersice.tempo,
-          workoutPlan.exersices.day4.firstExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day4.secondExersice.name,
-          workoutPlan.exersices.day4.secondExersice.reps,
-          workoutPlan.exersices.day4.secondExersice.set,
-          workoutPlan.exersices.day4.secondExersice.tempo,
-          workoutPlan.exersices.day4.secondExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day4.thirdExersice.name,
-          workoutPlan.exersices.day4.thirdExersice.reps,
-          workoutPlan.exersices.day4.thirdExersice.set,
-          workoutPlan.exersices.day4.thirdExersice.tempo,
-          workoutPlan.exersices.day4.thirdExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day4.fourthExersice.name,
-          workoutPlan.exersices.day4.fourthExersice.reps,
-          workoutPlan.exersices.day4.fourthExersice.set,
-          workoutPlan.exersices.day4.fourthExersice.tempo,
-          workoutPlan.exersices.day4.fourthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day4.fifthExersice.name,
-          workoutPlan.exersices.day4.fifthExersice.reps,
-          workoutPlan.exersices.day4.fifthExersice.set,
-          workoutPlan.exersices.day4.fifthExersice.tempo,
-          workoutPlan.exersices.day4.fifthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day4.sixthExersice.name,
-          workoutPlan.exersices.day4.sixthExersice.reps,
-          workoutPlan.exersices.day4.sixthExersice.set,
-          workoutPlan.exersices.day4.sixthExersice.tempo,
-          workoutPlan.exersices.day4.sixthExersice.rir,
-        ],
-      ]);
+    if (split == "FBW*3") {
+      addSheet(
+        workoutPlan.exersices.day1,
+        workoutPlan.exersices.day2,
+        workoutPlan.exersices.day3
+      );
+    }
+
+    if (split == "Push pull push pull") {
+      addSheet(
+        workoutPlan.exersices.day1,
+        workoutPlan.exersices.day2,
+        workoutPlan.exersices.day3,
+        workoutPlan.exersices.day4
+      );
     }
     if (split == "Push pull legs push pull") {
-      ws = XLSX.utils.aoa_to_sheet([
-        [workoutPlan.exersices.day1.name],
-        ["Ćw.", "Powt.", "Serie", "Tempo", "Rir"],
-        [
-          workoutPlan.exersices.day1.firstExersice.name,
-          workoutPlan.exersices.day1.firstExersice.reps,
-          workoutPlan.exersices.day1.firstExersice.set,
-          workoutPlan.exersices.day1.firstExersice.tempo,
-          workoutPlan.exersices.day1.firstExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day1.secondExersice.name,
-          workoutPlan.exersices.day1.secondExersice.reps,
-          workoutPlan.exersices.day1.secondExersice.set,
-          workoutPlan.exersices.day1.secondExersice.tempo,
-          workoutPlan.exersices.day1.secondExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day1.thirdExersice.name,
-          workoutPlan.exersices.day1.thirdExersice.reps,
-          workoutPlan.exersices.day1.thirdExersice.set,
-          workoutPlan.exersices.day1.thirdExersice.tempo,
-          workoutPlan.exersices.day1.thirdExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day1.fourthExersice.name,
-          workoutPlan.exersices.day1.fourthExersice.reps,
-          workoutPlan.exersices.day1.fourthExersice.set,
-          workoutPlan.exersices.day1.fourthExersice.tempo,
-          workoutPlan.exersices.day1.fourthExersice.rir,
-        ],
-
-        [],
-        [workoutPlan.exersices.day2.name],
-        ["Ćw.", "Powt.", "Serie", "Tempo", "Rir"],
-        [
-          workoutPlan.exersices.day2.firstExersice.name,
-          workoutPlan.exersices.day2.firstExersice.reps,
-          workoutPlan.exersices.day2.firstExersice.set,
-          workoutPlan.exersices.day2.firstExersice.tempo,
-          workoutPlan.exersices.day2.firstExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day2.secondExersice.name,
-          workoutPlan.exersices.day2.secondExersice.reps,
-          workoutPlan.exersices.day2.secondExersice.set,
-          workoutPlan.exersices.day2.secondExersice.tempo,
-          workoutPlan.exersices.day2.secondExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day2.thirdExersice.name,
-          workoutPlan.exersices.day2.thirdExersice.reps,
-          workoutPlan.exersices.day2.thirdExersice.set,
-          workoutPlan.exersices.day2.thirdExersice.tempo,
-          workoutPlan.exersices.day2.thirdExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day2.fourthExersice.name,
-          workoutPlan.exersices.day2.fourthExersice.reps,
-          workoutPlan.exersices.day2.fourthExersice.set,
-          workoutPlan.exersices.day2.fourthExersice.tempo,
-          workoutPlan.exersices.day2.fourthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day2.fifthExersice.name,
-          workoutPlan.exersices.day2.fifthExersice.reps,
-          workoutPlan.exersices.day2.fifthExersice.set,
-          workoutPlan.exersices.day2.fifthExersice.tempo,
-          workoutPlan.exersices.day2.fifthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day2.sixthExersice.name,
-          workoutPlan.exersices.day2.sixthExersice.reps,
-          workoutPlan.exersices.day2.sixthExersice.set,
-          workoutPlan.exersices.day2.sixthExersice.tempo,
-          workoutPlan.exersices.day2.sixthExersice.rir,
-        ],
-        [],
-        [workoutPlan.exersices.day3.name],
-        ["Ćw.", "Powt.", "Serie", "Tempo", "Rir"],
-        [
-          workoutPlan.exersices.day3.firstExersice.name,
-          workoutPlan.exersices.day3.firstExersice.reps,
-          workoutPlan.exersices.day3.firstExersice.set,
-          workoutPlan.exersices.day3.firstExersice.tempo,
-          workoutPlan.exersices.day3.firstExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day3.secondExersice.name,
-          workoutPlan.exersices.day3.secondExersice.reps,
-          workoutPlan.exersices.day3.secondExersice.set,
-          workoutPlan.exersices.day3.secondExersice.tempo,
-          workoutPlan.exersices.day3.secondExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day3.thirdExersice.name,
-          workoutPlan.exersices.day3.thirdExersice.reps,
-          workoutPlan.exersices.day3.thirdExersice.set,
-          workoutPlan.exersices.day3.thirdExersice.tempo,
-          workoutPlan.exersices.day3.thirdExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day3.fourthExersice.name,
-          workoutPlan.exersices.day3.fourthExersice.reps,
-          workoutPlan.exersices.day3.fourthExersice.set,
-          workoutPlan.exersices.day3.fourthExersice.tempo,
-          workoutPlan.exersices.day3.fourthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day3.fifthExersice.name,
-          workoutPlan.exersices.day3.fifthExersice.reps,
-          workoutPlan.exersices.day3.fifthExersice.set,
-          workoutPlan.exersices.day3.fifthExersice.tempo,
-          workoutPlan.exersices.day3.fifthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day3.sixthExersice.name,
-          workoutPlan.exersices.day3.sixthExersice.reps,
-          workoutPlan.exersices.day3.sixthExersice.set,
-          workoutPlan.exersices.day3.sixthExersice.tempo,
-          workoutPlan.exersices.day3.sixthExersice.rir,
-        ],
-        [],
-        [workoutPlan.exersices.day4.name],
-        ["Ćw.", "Powt.", "Serie", "Tempo", "Rir"],
-        [
-          workoutPlan.exersices.day4.firstExersice.name,
-          workoutPlan.exersices.day4.firstExersice.reps,
-          workoutPlan.exersices.day4.firstExersice.set,
-          workoutPlan.exersices.day4.firstExersice.tempo,
-          workoutPlan.exersices.day4.firstExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day4.secondExersice.name,
-          workoutPlan.exersices.day4.secondExersice.reps,
-          workoutPlan.exersices.day4.secondExersice.set,
-          workoutPlan.exersices.day4.secondExersice.tempo,
-          workoutPlan.exersices.day4.secondExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day4.thirdExersice.name,
-          workoutPlan.exersices.day4.thirdExersice.reps,
-          workoutPlan.exersices.day4.thirdExersice.set,
-          workoutPlan.exersices.day4.thirdExersice.tempo,
-          workoutPlan.exersices.day4.thirdExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day4.fourthExersice.name,
-          workoutPlan.exersices.day4.fourthExersice.reps,
-          workoutPlan.exersices.day4.fourthExersice.set,
-          workoutPlan.exersices.day4.fourthExersice.tempo,
-          workoutPlan.exersices.day4.fourthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day4.fifthExersice.name,
-          workoutPlan.exersices.day4.fifthExersice.reps,
-          workoutPlan.exersices.day4.fifthExersice.set,
-          workoutPlan.exersices.day4.fifthExersice.tempo,
-          workoutPlan.exersices.day4.fifthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day4.sixthExersice.name,
-          workoutPlan.exersices.day4.sixthExersice.reps,
-          workoutPlan.exersices.day4.sixthExersice.set,
-          workoutPlan.exersices.day4.sixthExersice.tempo,
-          workoutPlan.exersices.day4.sixthExersice.rir,
-        ],
-        [],
-        [workoutPlan.exersices.day5.name],
-        ["Ćw.", "Powt.", "Serie", "Tempo", "Rir"],
-        [
-          workoutPlan.exersices.day5.firstExersice.name,
-          workoutPlan.exersices.day5.firstExersice.reps,
-          workoutPlan.exersices.day4.firstExersice.set,
-          workoutPlan.exersices.day5.firstExersice.tempo,
-          workoutPlan.exersices.day5.firstExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day5.secondExersice.name,
-          workoutPlan.exersices.day5.secondExersice.reps,
-          workoutPlan.exersices.day5.secondExersice.set,
-          workoutPlan.exersices.day5.secondExersice.tempo,
-          workoutPlan.exersices.day5.secondExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day5.thirdExersice.name,
-          workoutPlan.exersices.day5.thirdExersice.reps,
-          workoutPlan.exersices.day5.thirdExersice.set,
-          workoutPlan.exersices.day5.thirdExersice.tempo,
-          workoutPlan.exersices.day5.thirdExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day5.fourthExersice.name,
-          workoutPlan.exersices.day5.fourthExersice.reps,
-          workoutPlan.exersices.day5.fourthExersice.set,
-          workoutPlan.exersices.day5.fourthExersice.tempo,
-          workoutPlan.exersices.day5.fourthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day5.fifthExersice.name,
-          workoutPlan.exersices.day5.fifthExersice.reps,
-          workoutPlan.exersices.day5.fifthExersice.set,
-          workoutPlan.exersices.day5.fifthExersice.tempo,
-          workoutPlan.exersices.day5.fifthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day5.sixthExersice.name,
-          workoutPlan.exersices.day5.sixthExersice.reps,
-          workoutPlan.exersices.day5.sixthExersice.set,
-          workoutPlan.exersices.day5.sixthExersice.tempo,
-          workoutPlan.exersices.day5.sixthExersice.rir,
-        ],
-      ]);
+      addSheet(
+        workoutPlan.exersices.day1,
+        workoutPlan.exersices.day2,
+        workoutPlan.exersices.day3,
+        workoutPlan.exersices.day4,
+        workoutPlan.exersices.day5
+      );
     }
     if (split == "Push pull legs push pull legs") {
-      ws = XLSX.utils.aoa_to_sheet([
-        [workoutPlan.exersices.day1.name],
-        ["Ćw.", "Powt.", "Serie", "Tempo", "Rir"],
-        [
-          workoutPlan.exersices.day1.firstExersice.name,
-          workoutPlan.exersices.day1.firstExersice.reps,
-          workoutPlan.exersices.day1.firstExersice.set,
-          workoutPlan.exersices.day1.firstExersice.tempo,
-          workoutPlan.exersices.day1.firstExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day1.secondExersice.name,
-          workoutPlan.exersices.day1.secondExersice.reps,
-          workoutPlan.exersices.day1.secondExersice.set,
-          workoutPlan.exersices.day1.secondExersice.tempo,
-          workoutPlan.exersices.day1.secondExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day1.thirdExersice.name,
-          workoutPlan.exersices.day1.thirdExersice.reps,
-          workoutPlan.exersices.day1.thirdExersice.set,
-          workoutPlan.exersices.day1.thirdExersice.tempo,
-          workoutPlan.exersices.day1.thirdExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day1.fourthExersice.name,
-          workoutPlan.exersices.day1.fourthExersice.reps,
-          workoutPlan.exersices.day1.fourthExersice.set,
-          workoutPlan.exersices.day1.fourthExersice.tempo,
-          workoutPlan.exersices.day1.fourthExersice.rir,
-        ],
-
-        [],
-        [workoutPlan.exersices.day2.name],
-        ["Ćw.", "Powt.", "Serie", "Tempo", "Rir"],
-        [
-          workoutPlan.exersices.day2.firstExersice.name,
-          workoutPlan.exersices.day2.firstExersice.reps,
-          workoutPlan.exersices.day2.firstExersice.set,
-          workoutPlan.exersices.day2.firstExersice.tempo,
-          workoutPlan.exersices.day2.firstExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day2.secondExersice.name,
-          workoutPlan.exersices.day2.secondExersice.reps,
-          workoutPlan.exersices.day2.secondExersice.set,
-          workoutPlan.exersices.day2.secondExersice.tempo,
-          workoutPlan.exersices.day2.secondExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day2.thirdExersice.name,
-          workoutPlan.exersices.day2.thirdExersice.reps,
-          workoutPlan.exersices.day2.thirdExersice.set,
-          workoutPlan.exersices.day2.thirdExersice.tempo,
-          workoutPlan.exersices.day2.thirdExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day2.fourthExersice.name,
-          workoutPlan.exersices.day2.fourthExersice.reps,
-          workoutPlan.exersices.day2.fourthExersice.set,
-          workoutPlan.exersices.day2.fourthExersice.tempo,
-          workoutPlan.exersices.day2.fourthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day2.fifthExersice.name,
-          workoutPlan.exersices.day2.fifthExersice.reps,
-          workoutPlan.exersices.day2.fifthExersice.set,
-          workoutPlan.exersices.day2.fifthExersice.tempo,
-          workoutPlan.exersices.day2.fifthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day2.sixthExersice.name,
-          workoutPlan.exersices.day2.sixthExersice.reps,
-          workoutPlan.exersices.day2.sixthExersice.set,
-          workoutPlan.exersices.day2.sixthExersice.tempo,
-          workoutPlan.exersices.day2.sixthExersice.rir,
-        ],
-        [],
-        [workoutPlan.exersices.day3.name],
-        ["Ćw.", "Powt.", "Serie", "Tempo", "Rir"],
-        [
-          workoutPlan.exersices.day3.firstExersice.name,
-          workoutPlan.exersices.day3.firstExersice.reps,
-          workoutPlan.exersices.day3.firstExersice.set,
-          workoutPlan.exersices.day3.firstExersice.tempo,
-          workoutPlan.exersices.day3.firstExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day3.secondExersice.name,
-          workoutPlan.exersices.day3.secondExersice.reps,
-          workoutPlan.exersices.day3.secondExersice.set,
-          workoutPlan.exersices.day3.secondExersice.tempo,
-          workoutPlan.exersices.day3.secondExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day3.thirdExersice.name,
-          workoutPlan.exersices.day3.thirdExersice.reps,
-          workoutPlan.exersices.day3.thirdExersice.set,
-          workoutPlan.exersices.day3.thirdExersice.tempo,
-          workoutPlan.exersices.day3.thirdExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day3.fourthExersice.name,
-          workoutPlan.exersices.day3.fourthExersice.reps,
-          workoutPlan.exersices.day3.fourthExersice.set,
-          workoutPlan.exersices.day3.fourthExersice.tempo,
-          workoutPlan.exersices.day3.fourthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day3.fifthExersice.name,
-          workoutPlan.exersices.day3.fifthExersice.reps,
-          workoutPlan.exersices.day3.fifthExersice.set,
-          workoutPlan.exersices.day3.fifthExersice.tempo,
-          workoutPlan.exersices.day3.fifthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day3.sixthExersice.name,
-          workoutPlan.exersices.day3.sixthExersice.reps,
-          workoutPlan.exersices.day3.sixthExersice.set,
-          workoutPlan.exersices.day3.sixthExersice.tempo,
-          workoutPlan.exersices.day3.sixthExersice.rir,
-        ],
-        [],
-        [workoutPlan.exersices.day4.name],
-        ["Ćw.", "Powt.", "Serie", "Tempo", "Rir"],
-        [
-          workoutPlan.exersices.day4.firstExersice.name,
-          workoutPlan.exersices.day4.firstExersice.reps,
-          workoutPlan.exersices.day4.firstExersice.set,
-          workoutPlan.exersices.day4.firstExersice.tempo,
-          workoutPlan.exersices.day4.firstExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day4.secondExersice.name,
-          workoutPlan.exersices.day4.secondExersice.reps,
-          workoutPlan.exersices.day4.secondExersice.set,
-          workoutPlan.exersices.day4.secondExersice.tempo,
-          workoutPlan.exersices.day4.secondExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day4.thirdExersice.name,
-          workoutPlan.exersices.day4.thirdExersice.reps,
-          workoutPlan.exersices.day4.thirdExersice.set,
-          workoutPlan.exersices.day4.thirdExersice.tempo,
-          workoutPlan.exersices.day4.thirdExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day4.fourthExersice.name,
-          workoutPlan.exersices.day4.fourthExersice.reps,
-          workoutPlan.exersices.day4.fourthExersice.set,
-          workoutPlan.exersices.day4.fourthExersice.tempo,
-          workoutPlan.exersices.day4.fourthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day4.fifthExersice.name,
-          workoutPlan.exersices.day4.fifthExersice.reps,
-          workoutPlan.exersices.day4.fifthExersice.set,
-          workoutPlan.exersices.day4.fifthExersice.tempo,
-          workoutPlan.exersices.day4.fifthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day4.sixthExersice.name,
-          workoutPlan.exersices.day4.sixthExersice.reps,
-          workoutPlan.exersices.day4.sixthExersice.set,
-          workoutPlan.exersices.day4.sixthExersice.tempo,
-          workoutPlan.exersices.day4.sixthExersice.rir,
-        ],
-        [],
-        [workoutPlan.exersices.day5.name],
-        ["Ćw.", "Powt.", "Serie", "Tempo", "Rir"],
-        [
-          workoutPlan.exersices.day5.firstExersice.name,
-          workoutPlan.exersices.day5.firstExersice.reps,
-          workoutPlan.exersices.day5.firstExersice.set,
-          workoutPlan.exersices.day5.firstExersice.tempo,
-          workoutPlan.exersices.day5.firstExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day5.secondExersice.name,
-          workoutPlan.exersices.day5.secondExersice.reps,
-          workoutPlan.exersices.day5.secondExersice.set,
-          workoutPlan.exersices.day5.secondExersice.tempo,
-          workoutPlan.exersices.day5.secondExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day5.thirdExersice.name,
-          workoutPlan.exersices.day5.thirdExersice.reps,
-          workoutPlan.exersices.day5.thirdExersice.set,
-          workoutPlan.exersices.day5.thirdExersice.tempo,
-          workoutPlan.exersices.day5.thirdExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day5.fourthExersice.name,
-          workoutPlan.exersices.day5.fourthExersice.reps,
-          workoutPlan.exersices.day5.fourthExersice.set,
-          workoutPlan.exersices.day5.fourthExersice.tempo,
-          workoutPlan.exersices.day5.fourthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day5.fifthExersice.name,
-          workoutPlan.exersices.day5.fifthExersice.reps,
-          workoutPlan.exersices.day5.fifthExersice.set,
-          workoutPlan.exersices.day5.fifthExersice.tempo,
-          workoutPlan.exersices.day5.fifthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day5.sixthExersice.name,
-          workoutPlan.exersices.day5.sixthExersice.reps,
-          workoutPlan.exersices.day5.sixthExersice.set,
-          workoutPlan.exersices.day5.sixthExersice.tempo,
-          workoutPlan.exersices.day5.sixthExersice.rir,
-        ],
-        [],
-        [workoutPlan.exersices.day6.name],
-        ["Ćw.", "Powt.", "Serie", "Tempo", "Rir"],
-        [
-          workoutPlan.exersices.day6.firstExersice.name,
-          workoutPlan.exersices.day6.firstExersice.reps,
-          workoutPlan.exersices.day6.firstExersice.set,
-          workoutPlan.exersices.day6.firstExersice.tempo,
-          workoutPlan.exersices.day6.firstExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day6.secondExersice.name,
-          workoutPlan.exersices.day6.secondExersice.reps,
-          workoutPlan.exersices.day6.secondExersice.set,
-          workoutPlan.exersices.day6.secondExersice.tempo,
-          workoutPlan.exersices.day6.secondExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day6.thirdExersice.name,
-          workoutPlan.exersices.day6.thirdExersice.reps,
-          workoutPlan.exersices.day6.thirdExersice.set,
-          workoutPlan.exersices.day6.thirdExersice.tempo,
-          workoutPlan.exersices.day6.thirdExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day6.fourthExersice.name,
-          workoutPlan.exersices.day6.fourthExersice.reps,
-          workoutPlan.exersices.day6.fourthExersice.set,
-          workoutPlan.exersices.day6.fourthExersice.tempo,
-          workoutPlan.exersices.day6.fourthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day6.fifthExersice.name,
-          workoutPlan.exersices.day6.fifthExersice.reps,
-          workoutPlan.exersices.day6.fifthExersice.set,
-          workoutPlan.exersices.day6.fifthExersice.tempo,
-          workoutPlan.exersices.day6.fifthExersice.rir,
-        ],
-        [
-          workoutPlan.exersices.day6.sixthExersice.name,
-          workoutPlan.exersices.day6.sixthExersice.reps,
-          workoutPlan.exersices.day6.sixthExersice.set,
-          workoutPlan.exersices.day6.sixthExersice.tempo,
-          workoutPlan.exersices.day6.sixthExersice.rir,
-        ],
-      ]);
+      addSheet(
+        workoutPlan.exersices.day1,
+        workoutPlan.exersices.day2,
+        workoutPlan.exersices.day3,
+        workoutPlan.exersices.day4,
+        workoutPlan.exersices.day5,
+        workoutPlan.exersices.day6
+      );
     }
     XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
     XLSX.writeFile(wb, "Plan Treningowy.xlsx");
